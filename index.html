@@ -6,31 +6,42 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <!-- ブラウザのタブに表示されるタイトル -->
-<title>お絵描き</title>
+<title>文字認識</title>
 </head>
  
 <body>
-<canvas id='canvas' width='300' height='400'></canvas>  <!-- 絵を描くcanvas要素 -->
+<canvas id='canvas' width='300' height='300'></canvas>  <!-- 絵を描くcanvas要素 -->
 
 <script>
 
 var touching = false;                                   // タッチ中か否かを入れる変数
 var motionData = [];
-var startX  = 100;                                        // 開始位置のX座標
-var startY  = 100;                                        // 開始位置のY座標
-var endX  = 100;                                          // 終了位置のX座標
-var endY  = 100;                                          // 終了位置のY座標
+var startX  = 150;                                        // 開始位置のX座標
+var startY  = 150;                                        // 開始位置のY座標
+var endX  = 150;                                          // 終了位置のX座標
+var endY  = 150;                                          // 終了位置のY座標
 var penColor = "#000000";                               // 線の色（#RRGGBB）
 var penWidth = 5;                                       // 線の幅
+var speedX = 0;
+var speedY = 0;
+var oldAccelX = 0;
+var oldAccelY = 0;
+var differenceX = 150;
+var differenceY = 150;
+var oldSpeedX = 0;
+var oldSpeedY = 0;
 
 // canvas要素に描画するためのお決まりの2行
 var canvas  = document.getElementById("canvas");        // canvas 要素の取得
 var context = canvas.getContext("2d");                  // 描画用部品を取得
 
+
+//加速度（モーション）に変化があった場合の処理
 if( window.DeviceMotionEvent ){ 
     window.addEventListener( "devicemotion", deviceMotion ); 
 } 
 
+//加速度の情報を配列に格納
 function deviceMotion( e ){ 
   e.preventDefault(); 
   if( touching ){ 
@@ -49,15 +60,33 @@ canvas.addEventListener("touchstart", (e) => {
     touching = true;                                    // タッチ中にする
     motionData = [];
 });
- 
+
 // タッチ終了イベントが起きたら
 canvas.addEventListener("touchend", (e) => {
     touching = false;
     if( motionData && motionData.length > 0 ){
       for( var i = 0; i < motionData.length; i ++ ){ 
         var mot = motionData[i]; 
-        endX = endX + mot['ac'].x;
-        endY = endY + mot['ac'].y;
+        // 前回の終了座標に加速度データを加算（表示補正でx1.2倍）
+        //endX = endX + (mot['ac'].x * 1.2);
+        //endY = endY + (mot['ac'].y * 1.2);
+
+       // 速度計算X(加速度を台形積分する)
+        speedX = ((mot['ac'].x + oldAccelX) * 0.2) / 2 + speedX;
+        oldAccelX = mot['ac'].x;
+
+        // 変位計算X(速度を台形積分する)
+        differenceX = ((speedX + oldSpeedX) * 0.2) / 2 + differenceX;
+        oldSpeedX = speedX;
+
+       // 速度計算Y(加速度を台形積分する)
+        speedY = ((-(mot['ac'].y) + oldAccelY) * 0.2) / 2 + speedY;
+        oldAccelY = mot['ac'].y;
+
+        // 変位計算Y(速度を台形積分する)
+        differenceY = ((speedY + oldSpeedY) * 0.2) / 2 + differenceY;
+        oldSpeedY = speedY;
+
         // 描画スタイルの設定
         context.strokeStyle = penColor;                 // 線の色
         context.lineWidth = penWidth;                   // 線の幅
@@ -65,15 +94,29 @@ canvas.addEventListener("touchend", (e) => {
         // 開始座標から終了座標に向かって線を引く
         context.beginPath();                            // 描画開始
         context.moveTo(startX, startY);                 // 開始座標から
-        context.lineTo(endX, endY);                     // 終了座標に向けて
+        context.lineTo(differenceX, differenceY);                     // 終了座標に向けて
         context.stroke();                               // 線を引く
         // 今の終了座標を次の開始座標にする
-        startX = endX;
-        startY = endY;
+        startX = differenceX;
+        startY = differenceY;
       } 
     }
 });
 
+//canvasデータを画像に変換にする関数
+function chgImg()
+{
+  var png = canvas.toDataURL();
+  document.getElementById("newImg").src = png;
+}
+
 </script>
+
+<form>
+<input type="button" value="画像に変換" onclick="chgImg()">
+</form>
+
+<div><img id="newImg"></div>
+
 </body>
 </html>
