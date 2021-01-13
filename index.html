@@ -80,7 +80,7 @@ canvas.addEventListener("touchend", (e) => {
         oldSpeedX = speedX;
 
        // 速度計算Y(加速度を台形積分する)
-        speedY = ((-(mot['ac'].y) + oldAccelY) * 0.2) / 2 + speedY;
+        speedY = ((mot['ac'].y + oldAccelY) * 0.2) / 2 + speedY;
         oldAccelY = mot['ac'].y;
 
         // 変位計算Y(速度を台形積分する)
@@ -113,9 +113,11 @@ function chgImg()
 </script>
 
 <form>
+<!-- 画像に変換ボタンを配置 -->
 <input type="button" value="画像に変換" onclick="chgImg()">
 </form>
 
+ <!-- 画像を表示 -->
 <div><img id="newImg"></div>
 
 </body>
