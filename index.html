@@ -31,7 +31,7 @@ var oldSpeedX = 0;
 var oldSpeedY = 0;
 var speedX = 0;
 var speedY = 0;
-var timespan = 0.01
+var timespan = 0.1
 var differenceX = 0;
 var differenceY = 0;
 
@@ -71,9 +71,6 @@ canvas.addEventListener("touchend", (e) => {
     if( motionData && motionData.length > 0 ){
       for( var i = 0; i < motionData.length; i ++ ){ 
         var mot = motionData[i]; 
-        // 前回の終了座標に加速度データを加算（表示補正でx1.2倍）
-        //endX = endX + (mot['ac'].x * 1.2);
-        //endY = endY + (mot['ac'].y * 1.2);
 
         // ローパスフィルター(現在の値 = 係数 * ひとつ前の値 ＋ (1 - 係数) * センサの値)
         lowpassValueX = lowpassValueX * filterCoefficient + mot['ac'].x * (1 - filterCoefficient);
