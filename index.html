@@ -18,18 +18,13 @@ var touching = false;                                   // タッチ中か否か
 var motionData = [];
 var startX  = 150;                                        // 開始位置のX座標
 var startY  = 150;                                        // 開始位置のY座標
-var endX  = 150;                                          // 終了位置のX座標
-var endY  = 150;                                          // 終了位置のY座標
 var penColor = "#000000";                               // 線の色（#RRGGBB）
 var penWidth = 5;                                       // 線の幅
 var speedX = 0;
 var speedY = 0;
-var oldAccelX = 0;
-var oldAccelY = 0;
-var differenceX = 150;
-var differenceY = 150;
-var oldSpeedX = 0;
-var oldSpeedY = 0;
+var timespan = 0.1
+var differenceX = 0;
+var differenceY = 0;
 
 // canvas要素に描画するためのお決まりの2行
 var canvas  = document.getElementById("canvas");        // canvas 要素の取得
@@ -71,21 +66,17 @@ canvas.addEventListener("touchend", (e) => {
         //endX = endX + (mot['ac'].x * 1.2);
         //endY = endY + (mot['ac'].y * 1.2);
 
-       // 速度計算X(加速度を台形積分する)
-        speedX = ((mot['ac'].x + oldAccelX) * 0.2) / 2 + speedX;
-        oldAccelX = mot['ac'].x;
+       // 速度X(加速度Xを積分)
+        speedX = mot['ac'].x / timespan;
 
-        // 変位計算X(速度を台形積分する)
-        differenceX = ((speedX + oldSpeedX) * 0.2) / 2 + differenceX;
-        oldSpeedX = speedX;
+        // 変位X(速度Xを積分する)
+        differenceX = speedX / timespan + startX;
 
-       // 速度計算Y(加速度を台形積分する)
-        speedY = ((mot['ac'].y + oldAccelY) * 0.2) / 2 + speedY;
-        oldAccelY = mot['ac'].y;
+       // 速度Y(加速度Yを積分)
+        speedY = mot['ac'].y / timespan;
 
         // 変位計算Y(速度を台形積分する)
-        differenceY = ((speedY + oldSpeedY) * 0.2) / 2 + differenceY;
-        oldSpeedY = speedY;
+        differenceY = speedY / timespan + startY;
 
         // 描画スタイルの設定
         context.strokeStyle = penColor;                 // 線の色
@@ -94,7 +85,7 @@ canvas.addEventListener("touchend", (e) => {
         // 開始座標から終了座標に向かって線を引く
         context.beginPath();                            // 描画開始
         context.moveTo(startX, startY);                 // 開始座標から
-        context.lineTo(differenceX, differenceY);                     // 終了座標に向けて
+        context.lineTo(differenceX, differenceY);       // 終了座標に向けて
         context.stroke();                               // 線を引く
         // 今の終了座標を次の開始座標にする
         startX = differenceX;
