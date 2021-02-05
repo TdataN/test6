@@ -19,7 +19,16 @@ var motionData = [];
 var startX  = 150;                                        // 開始位置のX座標
 var startY  = 150;                                        // 開始位置のY座標
 var penColor = "#000000";                               // 線の色（#RRGGBB）
-var penWidth = 5;                                       // 線の幅
+var penWidth = 2;                                       // 線の幅
+var filterCoefficient = 0.9;
+var lowpassValueX = 0;
+var lowpassValueY = 0;
+var highpassValueX = 0;
+var highpassValueY = 0;
+var oldAccelX = 0;
+var oldAccelY = 0;
+var oldSpeedX = 0;
+var oldSpeedY = 0;
 var speedX = 0;
 var speedY = 0;
 var timespan = 0.01
@@ -66,17 +75,27 @@ canvas.addEventListener("touchend", (e) => {
         //endX = endX + (mot['ac'].x * 1.2);
         //endY = endY + (mot['ac'].y * 1.2);
 
-       // 速度X(加速度Xを積分)
-        speedX = mot['ac'].x / timespan;
+        // ローパスフィルター(現在の値 = 係数 * ひとつ前の値 ＋ (1 - 係数) * センサの値)
+        lowpassValueX = lowpassValueX * filterCoefficient + mot['ac'].x * (1 - filterCoefficient);
+        lowpassValueY = lowpassValueY * filterCoefficient + mot['ac'].y * (1 - filterCoefficient);
+        
+        // ハイパスフィルター(センサの値 - ローパスフィルターの値)
+        highpassValueX = mot['ac'].x - lowpassValueX;
+        highpassValuey = mot['ac'].y - lowpassValueY;
 
-        // 変位X(速度Xを積分する)
-        differenceX = speedX / timespan + startX;
+        // 速度計算(加速度を台形積分する)
+        speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
+        oldAccelX = highpassValueX;
 
-       // 速度Y(加速度Yを積分)
-        speedY = mot['ac'].y / timespan;
+        speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2 + speedY;
+        oldAccelY = highpassValueY;
 
-        // 変位計算Y(速度を台形積分する)
-        differenceY = speedY / timespan + startY;
+        // 変位計算(速度を台形積分する)
+        differenceX = ((speedX + oldSpeedX) * timeSpan) / 2 + startX;
+        oldSpeedX = speedX;
+
+        differenceY = ((speedY + oldSpeedY) * timeSpan) / 2 + startY;
+        oldSpeedY = speedY;
 
         // 描画スタイルの設定
         context.strokeStyle = penColor;                 // 線の色
