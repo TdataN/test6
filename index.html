@@ -14,29 +14,30 @@
 
 <script>
 
+var penColor = "#000000";                               // 線の色（#RRGGBB）
+var penWidth = 3;                                       // 線の幅
 var touching = false;                                   // タッチ中か否かを入れる変数
 var motionData = [];
+
 var startX  = 150;                                        // 開始位置のX座標
 var startY  = 150;                                        // 開始位置のY座標
 var endX  = 150;                                          // 終了位置のX座標
 var endY  = 150;                                          // 終了位置のY座標
-var penColor = "#000000";                               // 線の色（#RRGGBB）
-var penWidth = 5;                                       // 線の幅
 
 var filterCoefficient = 0.5;
 var timeSpan = 0.1;
+
 var lowpassValueX =0;
 var lowpassValueY =0;
 var highpassValueX =0;
 var highpassValueY =0;
-
 var oldAccelX = 0;
-var speedX = 0;
-var oldSpeedX = 0;
-var differenceX = 0;
 var oldAccelY = 0;
+var speedX = 0;
 var speedY = 0;
+var oldSpeedX = 0;
 var oldSpeedY = 0;
+var differenceX = 0;
 var differenceY = 0;
 
 // canvas要素に描画するためのお決まりの2行
