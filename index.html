@@ -76,12 +76,15 @@ canvas.addEventListener("touchend", (e) => {
         var mot = motionData[i]; 
 
         // ローパスフィルター(現在の値 = ひとつ前の値 * 係数 ＋ センサの値 * (1 - 係数))
-        lowpassValueX = lowpassValueX * filterCoefficient + mot['ac'].x * (1 - filterCoefficient);
-        lowpassValueY = lowpassValueY * filterCoefficient + mot['ac'].y * (1 - filterCoefficient);
+        //lowpassValueX = lowpassValueX * filterCoefficient + mot['ac'].x * (1 - filterCoefficient);
+        //lowpassValueY = lowpassValueY * filterCoefficient + mot['ac'].y * (1 - filterCoefficient);
 
         // ハイパスフィルター(センサの値 - ローパスフィルターの値)
-        highpassValueX = mot['ac'].x - lowpassValueX;
-        highpassValuey = mot['ac'].y - lowpassValueY;
+        //highpassValueX = mot['ac'].x - lowpassValueX;
+        //highpassValuey = mot['ac'].y - lowpassValueY;
+
+        highpassValueX = mot['ac'].x
+        highpassValuey = mot['ac'].y
 
         // 速度計算(加速度を台形積分する)
         speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
