@@ -10,18 +10,34 @@
 </head>
  
 <body>
-<canvas id='canvas' width='300' height='300'></canvas>  <!-- 絵を描くcanvas要素 -->
+<canvas id='canvas' width='400' height='400'></canvas>  <!-- 絵を描くcanvas要素 -->
 
 <script>
 
 var touching = false;                                   // タッチ中か否かを入れる変数
 var motionData = [];
-var startX  = 100;                                        // 開始位置のX座標
-var startY  = 100;                                        // 開始位置のY座標
-var endX  = 100;                                          // 終了位置のX座標
-var endY  = 100;                                          // 終了位置のY座標
+var startX  = 150;                                        // 開始位置のX座標
+var startY  = 150;                                        // 開始位置のY座標
+var endX  = 150;                                          // 終了位置のX座標
+var endY  = 150;                                          // 終了位置のY座標
 var penColor = "#000000";                               // 線の色（#RRGGBB）
 var penWidth = 5;                                       // 線の幅
+
+var filterCoefficient = 0.5;
+var timeSpan = 0.1;
+var lowpassValueX =0;
+var lowpassValueY =0;
+var highpassValueX =0;
+var highpassValueY =0;
+
+var oldAccelX = 0;
+var speedX = 0;
+var oldSpeedX = 0;
+var differenceX = 0;
+var oldAccelY = 0;
+var speedY = 0;
+var oldSpeedY = 0;
+var differenceY = 0;
 
 // canvas要素に描画するためのお決まりの2行
 var canvas  = document.getElementById("canvas");        // canvas 要素の取得
@@ -88,11 +104,11 @@ function chgImg()
 </script>
 
 <form>
-//画像に変換ボタンを配置
+<!-- 画像に変換ボタンを配置 -->
 <input type="button" value="画像に変換" onclick="chgImg()">
 </form>
 
-//画像を表示
+<!-- 画像を表示 -->
 <div><img id="newImg"></div>
 
 </body>
