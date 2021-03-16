@@ -75,18 +75,26 @@ canvas.addEventListener("touchend", (e) => {
     if( motionData && motionData.length > 0 ){
       for( var i = 0; i < motionData.length; i ++ ){ 
         var mot = motionData[i]; 
-        // 前回の終了座標に加速度データを加算（表示補正でx1.2倍）
-        endX = endX + (mot['ac'].x * 1.2);
-        endY = endY + (mot['ac'].y * 1.2);
+
+        // ローパスフィルター(現在の値 = 係数 * ひとつ前の値 ＋ (1 - 係数) * センサの値)
+        lowpassValueX = lowpassValueX * filterCoefficient + mot['ac'].x * (1 - filterCoefficient);
+        lowpassValueY = lowpassValueY * filterCoefficient + mot['ac'].y * (1 - filterCoefficient);
+
+        // ハイパスフィルター(センサの値 - ローパスフィルターの値)
+        highpassValueX = mot['ac'].x - lowpassValueX;
+        highpassValuey = mot['ac'].y - lowpassValueY;
+
         // 描画スタイルの設定
         context.strokeStyle = penColor;                 // 線の色
         context.lineWidth = penWidth;                   // 線の幅
         context.lineCap = "round";                      // 線の端を丸める
+
         // 開始座標から終了座標に向かって線を引く
         context.beginPath();                            // 描画開始
         context.moveTo(startX, startY);                 // 開始座標から
         context.lineTo(endX, endY);                     // 終了座標に向けて
         context.stroke();                               // 線を引く
+
         // 今の終了座標を次の開始座標にする
         startX = endX;
         startY = endY;
