@@ -10,7 +10,7 @@
 </head>
  
 <body>
-<canvas id='canvas' width='350' height='300'></canvas>  <!-- 絵を描くcanvas要素 -->
+<canvas id='canvas' width='350' height='350'></canvas>  <!-- 絵を描くcanvas要素 -->
 
 <script>
 
@@ -83,13 +83,16 @@ canvas.addEventListener("touchend", (e) => {
         //highpassValueX = mot['ac'].x - lowpassValueX;
         //highpassValuey = mot['ac'].y - lowpassValueY;
 
+        //フィルタレス版
         highpassValueX = mot['ac'].x
         highpassValuey = mot['ac'].y
 
         // 速度計算(加速度を台形積分する)
-        speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
+        //speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
+        speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2
         oldAccelX = highpassValueX;
-        speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2 + speedY;
+        //speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2 + speedY;
+        speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2
         oldAccelY = highpassValueY;
 
         // 変位計算(速度を台形積分する)
