@@ -101,10 +101,6 @@ canvas.addEventListener("touchend", (e) => {
         endX = startX + differenceX;
         endY = startY + differenceY;
 
-        // 前回の終了座標に加速度データを加算
-        //endX = endX + mot['ac'].x;
-        //endY = endY + mot['ac'].y;
-
         // 描画スタイルの設定
         context.strokeStyle = penColor;                 // 線の色
         context.lineWidth = penWidth;                   // 線の幅
