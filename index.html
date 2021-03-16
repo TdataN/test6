@@ -10,7 +10,7 @@
 </head>
  
 <body>
-<canvas id='canvas' width='400' height='300'></canvas>  <!-- 絵を描くcanvas要素 -->
+<canvas id='canvas' width='400' height='400'></canvas>  <!-- 絵を描くcanvas要素 -->
 
 <script>
 
@@ -96,9 +96,13 @@ canvas.addEventListener("touchend", (e) => {
         differenceY = ((speedY + oldSpeedY) * timeSpan) / 2 + startY;
         oldSpeedY = speedY;
 
+        // 変位後の位置座標
+        endX = startX + differenceX;
+        endY = startY + differenceY;
+
         // 前回の終了座標に加速度データを加算
-        endX = endX + mot['ac'].x;
-        endY = endY + mot['ac'].y;
+        //endX = endX + mot['ac'].x;
+        //endY = endY + mot['ac'].y;
 
         // 描画スタイルの設定
         context.strokeStyle = penColor;                 // 線の色
