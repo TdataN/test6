@@ -10,7 +10,7 @@
 </head>
  
 <body>
-<canvas id='canvas' width='400' height='400'></canvas>  <!-- 絵を描くcanvas要素 -->
+<canvas id='canvas' width='400' height='300'></canvas>  <!-- 絵を描くcanvas要素 -->
 
 <script>
 
@@ -83,6 +83,18 @@ canvas.addEventListener("touchend", (e) => {
         // ハイパスフィルター(センサの値 - ローパスフィルターの値)
         highpassValueX = mot['ac'].x - lowpassValueX;
         highpassValuey = mot['ac'].y - lowpassValueY;
+
+        // 速度計算(加速度を台形積分する)
+        speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
+        oldAccelX = highpassValueX;
+        speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2 + speedY;
+        oldAccelY = highpassValueY;
+
+        // 変位計算(速度を台形積分する)
+        differenceX = ((speedX + oldSpeedX) * timeSpan) / 2 + startX;
+        oldSpeedX = speedX;
+        differenceY = ((speedY + oldSpeedY) * timeSpan) / 2 + startY;
+        oldSpeedY = speedY;
 
         // 前回の終了座標に加速度データを加算
         endX = endX + mot['ac'].x;
