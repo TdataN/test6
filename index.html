@@ -10,12 +10,10 @@
 </head>
  
 <body>
-<canvas id='canvas' width='400' height='300'></canvas>  <!-- 絵を描くcanvas要素 -->
+<canvas id='canvas' width='400' height='400'></canvas>  <!-- 絵を描くcanvas要素 -->
 
 <script>
 
-var penColor = "#000000";                               // 線の色（#RRGGBB）
-var penWidth = 3;                                       // 線の幅
 var touching = false;                                   // タッチ中か否かを入れる変数
 var motionData = [];
 
@@ -77,7 +75,7 @@ canvas.addEventListener("touchend", (e) => {
       for( var i = 0; i < motionData.length; i ++ ){ 
         var mot = motionData[i]; 
 
-        // ローパスフィルター(現在の値 = 係数 * ひとつ前の値 ＋ (1 - 係数) * センサの値)
+        // ローパスフィルター(現在の値 = ひとつ前の値 * 係数 ＋ センサの値 * (1 - 係数))
         lowpassValueX = lowpassValueX * filterCoefficient + mot['ac'].x * (1 - filterCoefficient);
         lowpassValueY = lowpassValueY * filterCoefficient + mot['ac'].y * (1 - filterCoefficient);
 
@@ -102,8 +100,8 @@ canvas.addEventListener("touchend", (e) => {
         endY = startY + differenceY;
 
         // 描画スタイルの設定
-        context.strokeStyle = penColor;                 // 線の色
-        context.lineWidth = penWidth;                   // 線の幅
+        context.strokeStyle = "#000000";                // 線の色（#RRGGBB）
+        context.lineWidth = 3;                          // 線の幅
         context.lineCap = "round";                      // 線の端を丸める
 
         // 開始座標から終了座標に向かって線を引く
