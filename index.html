@@ -10,7 +10,7 @@
 </head>
  
 <body>
-<canvas id='canvas' width='400' height='400'></canvas>  <!-- 絵を描くcanvas要素 -->
+<canvas id='canvas' width='400' height='300'></canvas>  <!-- 絵を描くcanvas要素 -->
 
 <script>
 
@@ -19,26 +19,26 @@ var penWidth = 3;                                       // 線の幅
 var touching = false;                                   // タッチ中か否かを入れる変数
 var motionData = [];
 
-var startX  = 150;                                        // 開始位置のX座標
-var startY  = 150;                                        // 開始位置のY座標
-var endX  = 150;                                          // 終了位置のX座標
-var endY  = 150;                                          // 終了位置のY座標
+var startX  = 150;                                      // 開始位置のX座標
+var startY  = 150;                                      // 開始位置のY座標
+var endX  = 150;                                        // 終了位置のX座標
+var endY  = 150;                                        // 終了位置のY座標
 
-var filterCoefficient = 0.5;
-var timeSpan = 0.1;
+var filterCoefficient = 0.9;                            // ローパスフィルターの係数(1に近づけるほど平滑化の度合いが大きくなる)
+var timeSpan = 0.1;                                     // 時間差分
 
-var lowpassValueX =0;
-var lowpassValueY =0;
-var highpassValueX =0;
-var highpassValueY =0;
-var oldAccelX = 0;
-var oldAccelY = 0;
-var speedX = 0;
-var speedY = 0;
-var oldSpeedX = 0;
-var oldSpeedY = 0;
-var differenceX = 0;
-var differenceY = 0;
+var lowpassValueX =0;                                   // ローパスフィルター
+var lowpassValueY =0;                                   // ローパスフィルター
+var highpassValueX =0;                                  // ハイパスフィルター
+var highpassValueY =0;                                  // ハイパスフィルター
+var oldAccelX = 0;                                      // 一つ前の加速度
+var oldAccelY = 0;                                      // 一つ前の加速度
+var speedX = 0;                                         // 加速度から算出した速度
+var speedY = 0;                                         // 加速度から算出した速度
+var oldSpeedX = 0;                                      // 一つ前の速度
+var oldSpeedY = 0;                                      // 一つ前の速度
+var differenceX = 0;                                    // 速度から算出した変位
+var differenceY = 0;                                    // 速度から算出した変位
 
 // canvas要素に描画するためのお決まりの2行
 var canvas  = document.getElementById("canvas");        // canvas 要素の取得
