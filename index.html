@@ -125,18 +125,10 @@ canvas.addEventListener("touchend", (e) => {
     }
 });
 
-//canvasデータを画像に変換にする関数
-function chgImg()
-{
-  var png = canvas.toDataURL();
-  document.getElementById("newImg").src = png;
-}
-
 window.addEventListener('load', () => {
     const button1 = document.getElementById('button1');
     button1.addEventListener('click', button1_clicked);
 });
-
 
 // Canvas に描かれた内容を PNG 画像としてダウンロードする
 function button1_clicked(evt) {
@@ -157,19 +149,15 @@ function button1_clicked(evt) {
         }, 1E4);
     }, 'image/png');
 }
-
 </script>
 
 <!-- 画像をダウンロード -->
-<div><p><button id="button1">Download Image</button></p>
+<div><p><button id="button1">Download Image</button></p></div>
 
 <form>
 <!-- 診断ページを開く -->
 <input type="button" value="診断ページ" onClick="document.location='https://aimaker.io/app/image-classification/id/6077';">
 </form>
-
-
-
 
 </body>
 </html>
