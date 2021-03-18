@@ -76,16 +76,16 @@ canvas.addEventListener("touchend", (e) => {
         var mot = motionData[i]; 
 
         // ローパスフィルター(現在の値 = ひとつ前の値 * 係数 ＋ センサの値 * (1 - 係数))
-        //lowpassValueX = lowpassValueX * filterCoefficient + mot['ac'].x * (1 - filterCoefficient);
-        //lowpassValueY = lowpassValueY * filterCoefficient + mot['ac'].y * (1 - filterCoefficient);
+        lowpassValueX = lowpassValueX * filterCoefficient + mot['ac'].x * (1 - filterCoefficient);
+        lowpassValueY = lowpassValueY * filterCoefficient + mot['ac'].y * (1 - filterCoefficient);
 
         // ハイパスフィルター(センサの値 - ローパスフィルターの値)
-        //highpassValueX = mot['ac'].x - lowpassValueX;
-        //highpassValuey = mot['ac'].y - lowpassValueY;
+        highpassValueX = mot['ac'].x - lowpassValueX;
+        highpassValuey = mot['ac'].y - lowpassValueY;
 
         //フィルタレス版
-        highpassValueX = mot['ac'].x
-        highpassValuey = mot['ac'].y
+        //highpassValueX = mot['ac'].x
+        //highpassValuey = mot['ac'].y
 
         // 速度計算(加速度を台形積分する)
         speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
@@ -137,10 +137,13 @@ function chgImg()
 <form>
 <!-- 画像に変換ボタンを配置 -->
 <input type="button" value="画像に変換" onclick="chgImg()">
+<!-- 診断ページを開く -->
+<input type="button" value="診断ページ" onClick="document.location='https://aimaker.io/app/image-classification/id/6077';">
 </form>
 
 <!-- 画像を表示 -->
 <div><img id="newImg"></div>
+
 
 </body>
 </html>
