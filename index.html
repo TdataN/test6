@@ -126,7 +126,7 @@ canvas.addEventListener("touchend", (e) => {
 });
 
 window.addEventListener('load', () => {
-    const button1 = document.getElementById('button1');
+    var button1 = document.getElementById('button1');
     button1.addEventListener('click', button1_clicked);
 });
 
@@ -135,7 +135,7 @@ function button1_clicked(evt) {
     evt.preventDefault();
 
     var png = canvas.toDataURL();
-    const c = document.getElementById("newImg").src = png;
+    var c = document.getElementById("newImg").src = png;
     c.toBlob((blob) => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -152,7 +152,7 @@ function button1_clicked(evt) {
 </script>
 
 <!-- 画像をダウンロード -->
-<div><p><button id="button1">Download Image</button></p></div>
+<div><p><button id="button1">画像をダウンロード</button></p></div>
 
 <form>
 <!-- 診断ページを開く -->
