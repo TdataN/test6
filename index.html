@@ -132,11 +132,34 @@ function chgImg()
   document.getElementById("newImg").src = png;
 }
 
+// Canvas に描かれた内容を PNG 画像としてダウンロードする
+function download() {
+
+    var png = canvas.toDataURL();
+    const c = document.getElementById("newImg").src = png;
+    c.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        document.body.appendChild(a);
+        a.download = 'number.png';
+        a.href = url;
+        a.click();
+        a.remove();
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 1E4);
+    }, 'image/png');
+}
+
 </script>
 
 <form>
 <!-- 画像に変換ボタンを配置 -->
 <input type="button" value="画像に変換" onclick="chgImg()">
+
+<!-- 画像をダウンロードボタンを配置 -->
+<input type="button" value="画像に変換" onclick="download()">
+
 <!-- 診断ページを開く -->
 <input type="button" value="診断ページ" onClick="document.location='https://aimaker.io/app/image-classification/id/6077';">
 </form>
