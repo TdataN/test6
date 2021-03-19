@@ -23,7 +23,7 @@ var endX  = 150;                                        // 終了位置のX座�
 var endY  = 150;                                        // 終了位置のY座標
 
 var filterCoefficient = 0.9;                            // ローパスフィルターの係数(1に近づけるほど平滑化の度合いが大きくなる)
-var timeSpan = 0.1;                                     // 時間差分
+var timeSpan = 0.02;                                    // 時間差分
 
 var lowpassValueX =0;                                   // ローパスフィルター
 var lowpassValueY =0;                                   // ローパスフィルター
@@ -76,16 +76,16 @@ canvas.addEventListener("touchend", (e) => {
         var mot = motionData[i]; 
 
         // ローパスフィルター(現在の値 = ひとつ前の値 * 係数 ＋ センサの値 * (1 - 係数))
-        lowpassValueX = lowpassValueX * filterCoefficient + mot['ac'].x * (1 - filterCoefficient);
-        lowpassValueY = lowpassValueY * filterCoefficient + mot['ac'].y * (1 - filterCoefficient);
+        //lowpassValueX = lowpassValueX * filterCoefficient + mot['ac'].x * (1 - filterCoefficient);
+        //lowpassValueY = lowpassValueY * filterCoefficient + mot['ac'].y * (1 - filterCoefficient);
 
         // ハイパスフィルター(センサの値 - ローパスフィルターの値)
-        highpassValueX = mot['ac'].x - lowpassValueX;
-        highpassValuey = mot['ac'].y - lowpassValueY;
+        //highpassValueX = mot['ac'].x - lowpassValueX;
+        //highpassValuey = mot['ac'].y - lowpassValueY;
 
         //フィルタレス版
-        //highpassValueX = mot['ac'].x
-        //highpassValuey = mot['ac'].y
+        highpassValueX = mot['ac'].x * 100
+        highpassValuey = mot['ac'].y * 100
 
         // 速度計算(加速度を台形積分する)
         speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
@@ -125,39 +125,22 @@ canvas.addEventListener("touchend", (e) => {
     }
 });
 
-window.addEventListener('load', () => {
-    var button1 = document.getElementById('button1');
-    button1.addEventListener('click', button1_clicked);
-});
-
-// Canvas に描かれた内容を PNG 画像としてダウンロードする
-function button1_clicked(evt) {
-    evt.preventDefault();
-
-    var png = canvas.toDataURL();
-    var c = document.getElementById("newImg").src = png;
-    c.toBlob((blob) => {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        document.body.appendChild(a);
-        a.download = 'number.png';
-        a.href = url;
-        a.click();
-        a.remove();
-        setTimeout(() => {
-            URL.revokeObjectURL(url);
-        }, 1E4);
-    }, 'image/png');
+//canvasデータを画像に変換にする関数
+function chgImg()
+{
+  var png = canvas.toDataURL();
+  document.getElementById("newImg").src = png;
 }
+
 </script>
 
-<!-- 画像をダウンロード -->
-<div><p><button id="button1">画像をダウンロード</button></p></div>
-
 <form>
-<!-- 診断ページを開く -->
-<input type="button" value="診断ページ" onClick="document.location='https://aimaker.io/app/image-classification/id/6077';">
+<!-- 画像に変換ボタンを配置 -->
+<input type="button" value="画像に変換" onclick="chgImg()">
 </form>
+
+<!-- 画像を表示 -->
+<div><img id="newImg"></div>
 
 </body>
 </html>
