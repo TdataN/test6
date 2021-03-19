@@ -22,7 +22,7 @@ var startY  = 150;                                      // 開始位置のY座�
 var endX  = 150;                                        // 終了位置のX座標
 var endY  = 150;                                        // 終了位置のY座標
 
-var filterCoefficient = 0.9;                            // ローパスフィルターの係数(1に近づけるほど平滑化の度合いが大きくなる)
+var filterCoefficient = 0;                            // ローパスフィルターの係数(1に近づけるほど平滑化の度合いが大きくなる)
 var timeSpan = 0.02;                                    // 時間差分
 
 var lowpassValueX =0;                                   // ローパスフィルター
@@ -76,16 +76,16 @@ canvas.addEventListener("touchend", (e) => {
         var mot = motionData[i]; 
 
         // ローパスフィルター(現在の値 = ひとつ前の値 * 係数 ＋ センサの値 * (1 - 係数))
-        //lowpassValueX = lowpassValueX * filterCoefficient + mot['ac'].x * (1 - filterCoefficient);
-        //lowpassValueY = lowpassValueY * filterCoefficient + mot['ac'].y * (1 - filterCoefficient);
+        lowpassValueX = lowpassValueX * filterCoefficient + mot['ac'].x * (1 - filterCoefficient);
+        lowpassValueY = lowpassValueY * filterCoefficient + mot['ac'].y * (1 - filterCoefficient);
 
         // ハイパスフィルター(センサの値 - ローパスフィルターの値)
-        //highpassValueX = mot['ac'].x - lowpassValueX;
-        //highpassValuey = mot['ac'].y - lowpassValueY;
+        highpassValueX = mot['ac'].x - lowpassValueX;
+        highpassValuey = mot['ac'].y - lowpassValueY;
 
         //フィルタレス版
-        highpassValueX = mot['ac'].x * 100
-        highpassValuey = mot['ac'].y * 100
+        //highpassValueX = mot['ac'].x * 100
+        //highpassValuey = mot['ac'].y * 100
 
         // 速度計算(加速度を台形積分する)
         speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
@@ -96,10 +96,10 @@ canvas.addEventListener("touchend", (e) => {
         oldAccelY = highpassValueY;
 
         // 変位計算(速度を台形積分する)
-        differenceX = ((speedX + oldSpeedX) * timeSpan) / 2 + startX;
+        differenceX = (((speedX + oldSpeedX) * timeSpan) / 2 + startX) * 100;
         //differenceX = ((speedX + oldSpeedX) * timeSpan) / 2;
         oldSpeedX = speedX;
-        differenceY = ((speedY + oldSpeedY) * timeSpan) / 2 + startY;
+        differenceY = (((speedY + oldSpeedY) * timeSpan) / 2 + startY) * 100;
         //differenceY = ((speedY + oldSpeedY) * timeSpan) / 2;
         oldSpeedY = speedY;
 
