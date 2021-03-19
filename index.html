@@ -83,32 +83,21 @@ canvas.addEventListener("touchend", (e) => {
         highpassValueX = mot['ac'].x - lowpassValueX;
         highpassValuey = mot['ac'].y - lowpassValueY;
 
-        //フィルタレス版
-        //highpassValueX = mot['ac'].x * 100
-        //highpassValuey = mot['ac'].y * 100
-
         // 速度計算(加速度を台形積分する)
-        //speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
-        //speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2;
-        //oldAccelX = highpassValueX;
-
-        speedX = ((lowpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
+        speedX = ((lowpassValueX + oldAccelX) * timeSpan) / 2;
         oldAccelX = lowpassValueX;
-
-        //speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2 + speedY;
-        speedY = ((lowpassValueY + oldAccelY) * timeSpan) / 2 + speedY;
-        //speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2;
+        speedY = ((lowpassValueY + oldAccelY) * timeSpan) / 2;
         oldAccelY = lowpassValueY;
 
         // 変位計算(速度を台形積分する)
-        differenceX = ((speedX + oldSpeedX) * timeSpan) / 2 + differenceX;
+        differenceX = ((speedX + oldSpeedX) * timeSpan) / 2;
         oldSpeedX = speedX;
-        differenceY = ((speedY + oldSpeedY) * timeSpan) / 2 + differenceY;
+        differenceY = ((speedY + oldSpeedY) * timeSpan) / 2;
         oldSpeedY = speedY;
 
         // 変位後の位置座標
-        endX = startX + (differenceX * 10);
-        endY = startY + (-differenceY * 10);
+        endX = startX + (differenceX * 1000);
+        endY = startY + (-differenceY * 1000);
 
         // 描画スタイルの設定
         context.strokeStyle = "#000000";                // 線の色（#RRGGBB）
@@ -142,7 +131,7 @@ function chgImg()
 </form>
 
 <!-- 反映確認用number -->
-7
+1
 
 <!-- 画像を表示 -->
 <div><img id="newImg"></div>
