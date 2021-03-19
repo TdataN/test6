@@ -109,8 +109,8 @@ canvas.addEventListener("touchend", (e) => {
         oldSpeedY = speedY;
 
         // 変位後の位置座標
-        endX = startX + (differenceX * 50);
-        endY = startY + (-differenceY * 50);
+        endX = startX + (differenceX * 10);
+        endY = startY + (-differenceY * 10);
 
         // 描画スタイルの設定
         context.strokeStyle = "#000000";                // 線の色（#RRGGBB）
@@ -144,7 +144,7 @@ function chgImg()
 </form>
 
 <!-- 反映確認用number -->
-5
+6
 
 <!-- 画像を表示 -->
 <div><img id="newImg"></div>
