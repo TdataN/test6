@@ -88,19 +88,19 @@ canvas.addEventListener("touchend", (e) => {
         highpassValuey = mot['ac'].y * 100
 
         // 速度計算(加速度を台形積分する)
-        //speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
-        speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2;
+        speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
+        //speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2;
         oldAccelX = highpassValueX;
-        //speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2 + speedY;
-        speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2;
+        speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2 + speedY;
+        //speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2;
         oldAccelY = highpassValueY;
 
         // 変位計算(速度を台形積分する)
-        //differenceX = ((speedX + oldSpeedX) * timeSpan) / 2 + startX;
-        differenceX = ((speedX + oldSpeedX) * timeSpan) / 2;
+        differenceX = ((speedX + oldSpeedX) * timeSpan) / 2 + startX;
+        //differenceX = ((speedX + oldSpeedX) * timeSpan) / 2;
         oldSpeedX = speedX;
-        //differenceY = ((speedY + oldSpeedY) * timeSpan) / 2 + startY;
-        differenceY = ((speedY + oldSpeedY) * timeSpan) / 2;
+        differenceY = ((speedY + oldSpeedY) * timeSpan) / 2 + startY;
+        //differenceY = ((speedY + oldSpeedY) * timeSpan) / 2;
         oldSpeedY = speedY;
 
         // 変位後の位置座標
