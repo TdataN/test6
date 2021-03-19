@@ -88,19 +88,21 @@ canvas.addEventListener("touchend", (e) => {
         //highpassValuey = mot['ac'].y * 100
 
         // 速度計算(加速度を台形積分する)
-        speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
+        //speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
+        speedX = ((lowpassValueX + oldAccelX) * timeSpan) / 2 + speedX;
         //speedX = ((highpassValueX + oldAccelX) * timeSpan) / 2;
-        oldAccelX = highpassValueX;
-        speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2 + speedY;
+        oldAccelX = lowpassValueX;
+        //speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2 + speedY;
+        speedY = ((lowpassValueY + oldAccelY) * timeSpan) / 2 + speedY;
         //speedY = ((highpassValueY + oldAccelY) * timeSpan) / 2;
-        oldAccelY = highpassValueY;
+        oldAccelY = lowpassValueY;
 
         // 変位計算(速度を台形積分する)
         differenceX = (((speedX + oldSpeedX) * timeSpan) / 2 + startX) * 100;
-        //differenceX = ((speedX + oldSpeedX) * timeSpan) / 2;
+        //differenceX = (((speedX + oldSpeedX) * timeSpan) / 2) * 100;
         oldSpeedX = speedX;
         differenceY = (((speedY + oldSpeedY) * timeSpan) / 2 + startY) * 100;
-        //differenceY = ((speedY + oldSpeedY) * timeSpan) / 2;
+        //differenceY = (((speedY + oldSpeedY) * timeSpan) / 2) * 100;
         oldSpeedY = speedY;
 
         // 変位後の位置座標
@@ -137,7 +139,10 @@ function chgImg()
 <!-- 画像に変換ボタンを配置 -->
 <input type="button" value="画像に変換" onclick="chgImg()">
 </form>
-1
+
+<!-- 反映確認用number -->
+2
+
 <!-- 画像を表示 -->
 <div><img id="newImg"></div>
 
