@@ -22,7 +22,7 @@ var startY  = 150;                                      // 開始位置のY座�
 var endX  = 150;                                        // 終了位置のX座標
 var endY  = 150;                                        // 終了位置のY座標
 
-var filterCoefficient = 0;                            // ローパスフィルターの係数(1に近づけるほど平滑化の度合いが大きくなる)
+var filterCoefficient = 0.5;                            // ローパスフィルターの係数(1に近づけるほど平滑化の度合いが大きくなる)
 var timeSpan = 0.02;                                    // 時間差分
 
 var lowpassValueX =0;                                   // ローパスフィルター
@@ -102,10 +102,8 @@ canvas.addEventListener("touchend", (e) => {
 
         // 変位計算(速度を台形積分する)
         differenceX = ((speedX + oldSpeedX) * timeSpan) / 2 + differenceX;
-        //differenceX = (((speedX + oldSpeedX) * timeSpan) / 2) * 100;
         oldSpeedX = speedX;
         differenceY = ((speedY + oldSpeedY) * timeSpan) / 2 + differenceY;
-        //differenceY = (((speedY + oldSpeedY) * timeSpan) / 2) * 100;
         oldSpeedY = speedY;
 
         // 変位後の位置座標
@@ -144,7 +142,7 @@ function chgImg()
 </form>
 
 <!-- 反映確認用number -->
-6
+7
 
 <!-- 画像を表示 -->
 <div><img id="newImg"></div>
