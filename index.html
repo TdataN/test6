@@ -117,77 +117,13 @@ canvas.addEventListener("touchend", (e) => {
     }
 });
 
-//canvasデータを画像に変換にする関数
-function chgImg()
-{
-  var png = canvas.toDataURL();
-  document.getElementById("newImg").src = png;
-}
-
-//画像をダウンロードする
-function downloadImg()
-{
-    var c = document.getElementById("newImg").src = png;
-    c.toBlob((blob) => {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        document.body.appendChild(a);
-        a.download = 'number.png';
-        a.href = url;
-        a.click();
-        a.remove();
-        setTimeout(() => {
-            URL.revokeObjectURL(url);
-        }, 1E4);
-    }, 'image/png');
-}
-
-
-window.addEventListener('load', () => {
-    var button1 = document.getElementById('button1');
-    button1.addEventListener('click', button1_clicked);
-});
-
-// Canvas に描かれた内容を PNG 画像としてダウンロードする
-function button1_clicked(evt) {
-    evt.preventDefault();
-
-    var png = canvas.toDataURL();
-    var c = document.getElementById("newImg").src = png;
-    c.toBlob((blob) => {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        document.body.appendChild(a);
-        a.download = 'number.png';
-        a.href = url;
-        a.click();
-        a.remove();
-        setTimeout(() => {
-            URL.revokeObjectURL(url);
-        }, 1E4);
-    }, 'image/png');
-}
 </script>
 
-<!-- 画像をダウンロード -->
-<!-- <div><p><button id="button1">画像をダウンロード</button></p></div> -->
-
 <form>
-<!-- 画像に変換 -->
-<input type="button" value="画像に変換" onclick="chgImg()">
-<!-- 画像をダウンロード -->
-<input type="button" value="画像をダウンロード" onclick="downloadImg()">
 <!-- 診断ページを開く -->
 <input type="button" value="診断ページ" onClick="document.location='https://aimaker.io/app/image-classification/id/6077';">
 
 </form>
-
-<!-- バージョン情報 -->
-バージョン_20210322_1810
-
- <!-- 画像を表示 -->
-<div><img id="newImg"></div>
-
 
 </body>
 </html>
